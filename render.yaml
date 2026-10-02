@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: mediaforge
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: MAX_MB
+        value: "100"
+      - key: MAX_JOBS
+        value: "1"
+      - key: RATE_PER_HOUR
+        value: "20"
+      - key: ALLOWED_ORIGIN
+        value: "*"   # change to your Netlify / GitHub Pages URL once the site is live
