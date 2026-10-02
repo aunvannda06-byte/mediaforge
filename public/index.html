@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script>/* Set to your FFmpeg server URL when hosting the page separately, e.g. "https://mediaforge.onrender.com". Leave empty if the server serves this page. */window.MF_API="";</script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MediaForge</title>
+<style>
+:root{--bg:#F8FAFC;--card:#fff;--tx:#0F172A;--mu:#475569;--bd:#E2E8F0;--p:#2563EB;--s:#7C3AED;--a:#06B6D4;--soft:#EEF2FF;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0B1220;--card:#111A2E;--tx:#E8EEF9;--mu:#9FB0CC;--bd:#24304A;--soft:#17223B}}
+:root[data-theme=dark]{--bg:#0B1220;--card:#111A2E;--tx:#E8EEF9;--mu:#9FB0CC;--bd:#24304A;--soft:#17223B}
+*{box-sizing:border-box}html{scroll-padding-top:70px;height:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Segoe UI",system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.w{max-width:1180px;margin:auto;padding:0 20px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd)}
+nav .w{display:flex;align-items:center;gap:22px;height:64px}
+.logo{font-weight:800;font-size:22px;display:flex;gap:8px;align-items:center}
+.logo i{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--p),var(--s));display:grid;place-items:center;color:#fff;font-style:normal;font-size:13px}
+nav .l{display:flex;justify-content:center;gap:34px;font-size:16px;flex:1;font-size:15px;color:var(--mu)}nav .l a:hover,nav .l a.on{color:var(--p)}nav .l a.on{box-shadow:0 22px 0 -20px var(--p);font-weight:600}nav .logo{font-size:28px;letter-spacing:-.02em}nav .logo i{width:38px;height:38px;border-radius:11px;font-size:17px}
+button,.btn{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:9px 16px;transition:transform .15s,box-shadow .15s}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 16px #2563eb22}
+.pri{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:0;font-weight:600}
+.pri:disabled{opacity:.5;cursor:not-allowed}
+#mb{display:none}
+@media(max-width:860px){nav .l{display:none;position:absolute;top:64px;left:0;right:0;background:var(--card);flex-direction:column;padding:16px 20px;border-bottom:1px solid var(--bd)}nav .l.open{display:flex}#mb{display:block;margin-left:auto}nav .r{display:none}}
+.hero{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center;padding:56px 0}
+@media(max-width:980px){.hero{grid-template-columns:1fr}}
+.eb{color:var(--p);font-weight:600;font-size:13px;letter-spacing:.12em}
+h1{font-size:clamp(32px,4.2vw,54px);line-height:1.1;margin:10px 0 16px;letter-spacing:-.02em;font-weight:700}.heroband{background:linear-gradient(180deg,var(--soft),var(--bg))}
+.g1{color:var(--p)}.g2{color:var(--s)}
+.mu{color:var(--mu)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.badges span{background:var(--soft);border-radius:99px;padding:5px 12px;font-size:13px}
+.app{background:var(--card);border:1px solid var(--bd);border-radius:18px;box-shadow:0 20px 60px #2563eb22;overflow:hidden;font-size:12px}
+.app .top{display:grid;grid-template-columns:90px 1fr 120px}
+.app aside{padding:10px;border-right:1px solid var(--bd);display:grid;gap:6px;align-content:start}
+.app aside b{padding:6px 8px;border-radius:8px;font-weight:500}.app aside b:nth-child(2){background:var(--soft);color:var(--p)}
+.vid{margin:10px;aspect-ratio:16/9;border-radius:10px;background:linear-gradient(160deg,#1e3a8a,#7c3aed 60%,#06b6d4);display:grid;place-items:center;color:#fff;font-size:28px}
+.tools{padding:10px;display:grid;gap:5px;align-content:start}.tools span{background:var(--soft);padding:5px 8px;border-radius:7px}
+.tl{border-top:1px solid var(--bd);padding:10px;display:grid;gap:5px;position:relative}
+.tr{height:20px;border-radius:5px;background:var(--soft);position:relative}
+.tr i{position:absolute;top:0;bottom:0;border-radius:5px}
+.ph{position:absolute;left:34%;top:6px;bottom:6px;width:2px;background:var(--p)}
+@media(max-width:560px){.app .top{grid-template-columns:1fr}.app aside,.tools{display:none}}
+section{padding:56px 0}h2{font-size:clamp(26px,3.5vw,38px);margin:0 0 6px;letter-spacing:-.01em}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px}
+.card h3{margin:8px 0 4px;font-size:17px}.card p{margin:0;color:var(--mu);font-size:14px}
+.two{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.steps{counter-reset:s;margin:12px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:center}
+.steps li:before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--p);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+.aud .steps li:before{background:#10b981}
+.fm{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.fm b{padding:10px 18px;border-radius:12px;background:var(--soft);border:1px solid var(--bd)}
+details{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 18px;margin-top:10px}summary{cursor:pointer;font-weight:600}
+.price{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:24px}
+.price .card.hl{border:2px solid var(--p)}
+.drop{border:2px dashed var(--bd);border-radius:16px;padding:40px 20px;text-align:center;background:var(--card);transition:.2s}
+.drop.over{border-color:var(--p);background:var(--soft)}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--bd)}
+.row small{color:var(--mu)}.bar{height:6px;border-radius:9px;background:var(--bd);overflow:hidden;min-width:90px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--s));transition:width .2s}
+.ctl{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0}.ctl label{display:grid;gap:4px;font-size:13px;color:var(--mu)}
+select{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
+.note{background:var(--soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:12px 0}
+.tag{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--soft)}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:20}#toast.show{opacity:1}
+footer{border-top:1px solid var(--bd);padding:32px 0;color:var(--mu);font-size:14px}
+.ed2{display:grid;grid-template-columns:minmax(0,2fr) minmax(240px,1fr);gap:16px}@media(max-width:860px){.ed2{grid-template-columns:1fr}}.tlr{display:grid;grid-template-columns:60px 1fr;align-items:center;margin:4px 0;font-size:12px}.tk{height:26px;cursor:pointer}.tk i.sel{outline:2px solid var(--p)}#vtl{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;overflow-x:auto}.tlw{position:relative;min-width:560px}.tph{position:absolute;top:0;bottom:0;width:2px;background:var(--a);pointer-events:none}.rg{position:absolute;border:2px solid var(--a);background:#06b6d433;pointer-events:none}.fb{display:flex;flex-wrap:wrap;gap:16px;margin:26px 0}.fb div{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--mu);line-height:1.3}.fb b{width:46px;height:46px;border-radius:12px;background:var(--card);box-shadow:0 6px 18px #2563eb26;display:grid;place-items:center;font-size:22px}
+.upl{display:inline-flex;flex-wrap:wrap;border-radius:99px;overflow:hidden;box-shadow:0 10px 24px #2563eb44}.upl button{border:0;border-radius:0;color:#fff;font-size:17px;font-weight:600;padding:16px 26px}.upl button:hover{transform:none;filter:brightness(1.08)}.up1{background:linear-gradient(90deg,#2563EB,#3b82f6)}.up2{background:linear-gradient(90deg,#059669,#10b981)}.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;margin-bottom:20px}.fg a{display:block;padding:3px 0}.fg b{color:var(--tx)}.cta{display:inline-flex;gap:12px;align-items:center;padding:16px 30px;border-radius:99px;font-size:18px;font-weight:600;background:linear-gradient(90deg,#2563EB,#3b82f6);color:#fff;border:0;box-shadow:0 10px 24px #2563eb44}
+.pvwrap{position:relative}.fl{position:absolute;right:6%;top:-40px;display:flex;gap:14px;z-index:2}.fl b{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;color:#fff;font-size:26px;box-shadow:0 10px 24px #0003;transform:rotate(-8deg)}.fl b:nth-child(2){transform:rotate(8deg)}
+.pv{display:grid;grid-template-columns:104px 1.5fr 1fr 1fr;grid-template-areas:"h h h h" "a v t c" "a l q u";gap:0;font-size:11px}.pv>*{min-width:0}
+.pv .h{grid-area:h;padding:10px 14px;border-bottom:1px solid var(--bd)}.pv aside{grid-area:a;display:block;padding:8px}.pv .vc{grid-area:v;padding:10px}.pv .t{grid-area:t}.pv .c{grid-area:c}.pv .l{grid-area:l}.pv .q{grid-area:q}.pv .u{grid-area:u}
+.s{display:block;padding:8px 9px;border-radius:8px;color:var(--mu);margin-bottom:4px}.s.on{background:var(--soft);color:var(--p);font-weight:600}
+.vid2{position:relative;aspect-ratio:16/10;border-radius:10px;background:linear-gradient(180deg,#9ec8f0 0 38%,#3f7d5a 38% 58%,#2f6f9f 58%);color:#fff;display:grid;place-items:center;overflow:hidden}
+.vid2 em{position:absolute;right:8px;top:8px;background:#0008;border-radius:6px;padding:1px 6px;font-style:normal}.vid2 u{text-decoration:none;font-size:30px;text-shadow:0 2px 8px #0008}.vid2 .pb{position:absolute;left:10px;right:10px;bottom:24px;height:3px;background:#fff6;border-radius:9px}.vid2 .pb i{display:block;width:6%;height:100%;background:#fff;border-radius:9px}.vid2 small{position:absolute;left:10px;bottom:6px}
+.bx{padding:10px;border-left:1px solid var(--bd);border-top:1px solid var(--bd)}.pv .vc,.pv aside{border-top:1px solid var(--bd)}.pv .l{border-left:0}.bx h4{margin:0 0 6px;font-size:11px}
+.ic4{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px;text-align:center}.ic4 span{background:var(--soft);border-radius:8px;padding:6px 2px;font-size:15px;color:var(--p)}.ic4 small{display:block;font-size:8px;color:var(--mu)}
+.sw .a{background:linear-gradient(#bfdbfe,#4ade80)}.sw .b{background:linear-gradient(#fbbf24,#b45309)}.sw .c{background:linear-gradient(#e5e7eb,#6b7280)}.sw .d{background:linear-gradient(#bae6fd,#2563eb)}.sw span{height:34px}
+.tabs{display:flex;gap:6px;margin-bottom:8px}.tabs b{flex:1;background:var(--p);color:#fff;border-radius:6px;padding:4px;text-align:center}.tabs span{flex:1;background:var(--soft);border-radius:6px;padding:4px;text-align:center}
+.sl2{border:1px solid var(--bd);border-radius:6px;padding:5px 7px;margin:3px 0 7px}.cbtn{display:block;text-align:center;background:var(--p);color:#fff;border-radius:7px;padding:7px;font-weight:600}
+.tlp{position:relative}.ru{display:flex;justify-content:space-between;font-size:8px;color:var(--mu);margin:4px 0 4px 52px}.trk{display:grid;grid-template-columns:48px 1fr;gap:4px;align-items:center;margin:3px 0}.trk label{color:var(--mu);font-size:9px}
+.lane{position:relative;height:20px}.lane i{position:absolute;top:0;bottom:0;border-radius:4px;font-size:9px;font-style:normal;padding:3px 6px;overflow:hidden;white-space:nowrap}.wv{background:repeating-linear-gradient(90deg,#10b981 0 2px,#a7f3d0 2px 4px)}
+.ph3{position:absolute;left:calc(52px + (100% - 62px)*.28);top:34px;bottom:8px;width:2px;background:var(--p)}.tb{display:flex;gap:12px;color:var(--mu);font-size:13px}
+.q .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.g3 span{background:var(--soft);border-radius:8px;padding:5px 2px;text-align:center;font-size:14px}.g3 small{display:block;font-size:8px;color:var(--mu)}
+@media(max-width:700px){.pv{display:flex;flex-direction:column}.pv aside{display:none}.bx{border-left:0}.fl{top:-30px}}
+.pn{border-radius:20px;padding:20px;border:1px solid var(--bd)}.pn.v{background:linear-gradient(180deg,color-mix(in srgb,#6366f1 12%,var(--card)),var(--card))}.pn.a{background:linear-gradient(180deg,color-mix(in srgb,#10b981 12%,var(--card)),var(--card))}
+.pnh{display:flex;gap:14px;align-items:center}.ci{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:26px;color:#fff;flex:none;background:linear-gradient(135deg,#8b5cf6,#4f46e5)}.a .ci{background:linear-gradient(135deg,#34d399,#059669)}.pnh h3{margin:0;font-size:26px;letter-spacing:-.01em}.pnh p{margin:4px 0 0;color:var(--mu);font-size:14px}
+.st4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:16px 0}.st4>div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;font-size:12px;color:var(--mu)}.st4 em{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#4f46e5;color:#fff;font-style:normal;font-size:12px;margin-right:6px}.a .st4 em{background:#10b981}.st4 b{display:block;color:var(--tx);font-size:14px;margin:8px 0 2px}.st4 p{margin:0}.ck{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--mu)}.ck span:before{content:"✓ ";color:var(--p)}
+.view{display:none}.view.on{display:block}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+#vtl{overflow-x:auto}#vtl .tlw{min-width:calc(var(--z,1)*100%)}
+.sk{background:linear-gradient(90deg,var(--bd),transparent,var(--bd));background-size:200%;animation:sk 1.2s infinite;border-radius:6px}@keyframes sk{to{background-position:-200%}}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script></head><body>
+<nav><div class="w"><a class="logo" href="#home"><i>▶</i>MediaForge</a>
+<div class="l" id="menu"><a href="#home" data-v="home">Home</a><a href="#features">Features</a><a href="#how">How It Works</a><a href="#docs">Documentation</a><a href="#tutorials">Tutorials</a><a href="#faq">FAQ</a></div>
+<div class="r mu" style="font-size:14px">Fast <span style="margin:0 8px">•</span> Simple <span style="margin:0 8px">•</span> Secure</div>
+<button id="mb" aria-label="Toggle menu" aria-expanded="false">☰</button></div></nav>
+
+<main>
+<div class="view on" id="v-home">
+<div class="heroband"><div class="w hero"><div>
+<div class="eb">ALL-IN-ONE MEDIA TOOLKIT</div>
+<h1><span class="g1">Video</span> Editor &amp; Converter<br>and <span class="g1">Audio</span> Editor &amp; Converter</h1>
+<p class="mu">Edit, convert, enhance and create amazing videos and audio — all in one powerful, easy-to-use platform. From simple cuts to advanced effects, MediaForge gives you everything you need for professional results.</p>
+<div class="fb"><div><b>🎞</b><span>Video Editing<br>&amp; Conversion</span></div><div><b>🎵</b><span>Audio Editing<br>&amp; Conversion</span></div><div><b>⚡</b><span>Fast Processing<br>&amp; Batch Support</span></div><div><b>☁</b><span>Multiple Formats<br>&amp; Presets</span></div></div>
+<div class="upl" role="group" aria-label="Upload your media"><button class="up1" id="hvb">⇪ Upload Video</button><button class="up2" id="hab">♪ Upload Audio</button></div><input type="file" id="hv" accept="video/*" hidden><input type="file" id="ha" accept="audio/*" hidden>
+<p class="mu" style="font-size:13px;margin-top:16px">Supports MP4, WebM, AVI, MOV, MKV, GIF, MP3, WAV, AAC, OGG, FLAC, M4A</p></div>
+<div class="pvwrap"><div class="fl" aria-hidden="true"><b style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">▶</b><b style="background:linear-gradient(135deg,#60a5fa,#2563eb)">♪</b><b style="background:linear-gradient(135deg,#34d399,#059669)">∿</b></div>
+<div class="app pv" aria-label="MediaForge editor preview"><div class="h"><span class="logo" style="font-size:15px"><i style="width:22px;height:22px;font-size:10px">▶</i>MediaForge</span></div>
+<aside><a href="#home" class="s">⌂ Home</a><a href="#video-editor" class="s on">▣ Video Editor</a><a href="#audio-editor" class="s">♪ Audio Editor</a><a href="#video-converter" class="s">⇄ Converter</a><a href="#files" class="s">▤ My Files</a></aside>
+<div class="vc"><div class="vid2"><em>4K</em><u>▶</u><div class="pb"><i></i></div><small>00:12 / 03:45</small></div></div>
+<div class="bx t"><h4>Video Tools</h4><div class="ic4"><span>✂<small>Trim</small></span><span>⛶<small>Crop</small></span><span>↻<small>Rotate</small></span><span>⇋<small>Flip</small></span></div><h4>Effects &amp; Filters</h4><div class="ic4 sw"><span class="a"><small>Bright</small></span><span class="b"><small>Vintage</small></span><span class="c"><small>B&amp;W</small></span><span class="d"><small>Cool</small></span></div><div class="ic4"><span>T<small>Text</small></span><span>◔<small>Speed</small></span><span>⧉<small>Transitions</small></span><span>⊘<small>Remove BG</small></span></div></div>
+<div class="bx c"><h4>Convert Video &amp; Audio</h4><div class="tabs"><b>Video</b><span>Audio</span></div><small>Output Format</small><div class="sl2">MP4 ⌄</div><small>Preset</small><div class="sl2">YouTube (1080p) ⌄</div><a class="cbtn" href="#video-converter">Convert Now</a></div>
+<div class="bx l tlp"><div class="tb"><span>↶ ↷</span><span>✂ ⧉</span></div><div class="ru"><span>00:00</span><span>00:30</span><span>01:00</span><span>01:30</span><span>02:00</span><span>02:30</span><span>03:00</span></div>
+<div class="trk"><label>Video</label><div class="lane"><i style="left:0;width:68%;background:linear-gradient(90deg,#1e3a8a,#60a5fa,#a78bfa,#34d399,#1e3a8a)"></i><i style="left:70%;width:28%;background:linear-gradient(90deg,#065f46,#38bdf8)"></i></div></div>
+<div class="trk"><label>Text</label><div class="lane"><i style="left:10%;width:36%;background:#7c3aed;color:#fff">T My Adventure</i></div></div>
+<div class="trk"><label>Audio</label><div class="lane"><i class="wv" style="left:0;width:48%"></i><i class="wv" style="left:50%;width:48%"></i></div></div>
+<div class="trk"><label>Overlay</label><div class="lane"><i style="left:0;width:68%;background:#a5b4fc;color:#fff">Overlay Image</i></div></div><div class="ph3"></div></div>
+<div class="bx q"><h4>Quick Presets</h4><div class="g3"><span>▶<small>YouTube 16:9</small></span><span>▯<small>TikTok 9:16</small></span><span>◎<small>Instagram 1:1</small></span><span>✦<small>Twitter 16:9</small></span><span>⚙<small>Web Auto</small></span></div></div>
+<div class="bx u"><h4>Audio Tools</h4><div class="ic4"><span>♪<small>Add Audio</small></span><span>✂<small>Trim</small></span><span>✦<small>Effects</small></span><span>⫴<small>EQ</small></span></div></div>
+</div></div></div></div>
+
+<section id="how"><div class="w"><h2 style="text-align:center;font-size:clamp(30px,4vw,44px)">How It Works</h2><p class="mu" style="text-align:center;margin:0">Powerful features in 4 simple steps</p>
+<div class="two" style="margin-top:24px"><div class="pn v"><div class="pnh"><span class="ci">▣</span><div><h3><a href="#video-editor">Video Editor &amp; Converter</a></h3><p>Edit your videos, add effects, convert to any format, or extract audio — all in one place.</p></div></div>
+<div class="st4"><div><em>1</em><b>Upload Video</b><p>Drag &amp; drop or choose your video files.</p></div><div><em>2</em><b>Edit &amp; Enhance</b><p>Trim, crop, add text, filters, transitions.</p></div><div><em>3</em><b>Convert Format</b><p>Choose your output format &amp; preset.</p></div><div><em>4</em><b>Download</b><p>Save your video instantly.</p></div></div>
+<div class="ck"><span>Multi-track timeline</span><span>Remove watermark</span><span>Background removal</span><span>MP3 extraction</span></div></div>
+<div class="pn a"><div class="pnh"><span class="ci">∿</span><div><h3><a href="#audio-editor">Audio Editor &amp; Converter</a></h3><p>Edit, mix, and enhance your audio tracks with professional tools and high-quality conversion.</p></div></div>
+<div class="st4"><div><em>1</em><b>Upload Audio</b><p>Drag &amp; drop or choose your audio files.</p></div><div><em>2</em><b>Edit &amp; Mix</b><p>Cut, trim, multi-track, volume &amp; fades.</p></div><div><em>3</em><b>Apply Effects</b><p>EQ, noise reduction, pitch &amp; speed.</p></div><div><em>4</em><b>Convert &amp; Save</b><p>Choose format, bitrate, sample rate and more.</p></div></div>
+<div class="ck"><span>MP3, WAV, AAC, OGG, FLAC, M4A</span><span>Batch processing</span><span>Mono / Stereo</span><span>Non-destructive editing</span></div></div></div></div></section>
+
+<section id="features"><div class="w"><h2>Everything in one place</h2>
+<div class="grid" id="fgrid"></div></div></section>
+
+<section><div class="w"><h2>Supported formats</h2>
+<p class="mu">Video</p><div class="fm"><b>MP4</b><b>WebM</b><b>AVI</b><b>MOV</b><b>MKV</b><b>GIF</b></div>
+<p class="mu">Audio</p><div class="fm"><b>MP3</b><b>WAV</b><b>AAC</b><b>OGG</b><b>FLAC</b><b>M4A</b></div></div></section>
+
+<section><div class="w"><h2>Pricing</h2><p class="mu">Payments are not connected yet.</p>
+<div class="price"><div class="card"><h3>Free</h3><p>Basic converters and editor</p><p style="margin:12px 0"><button>Start Free</button></p></div>
+<div class="card hl"><h3>Pro</h3><p>Batch, 4K and presets</p><p style="margin:12px 0"><button class="pri">Upgrade</button></p></div>
+<div class="card"><h3>Business</h3><p>Teams and API access</p><p style="margin:12px 0"><button>Upgrade</button></p></div></div></div></section>
+
+<section id="faq"><div class="w"><h2>FAQ</h2>
+<details><summary>What video formats are supported?</summary><p class="mu">Playback depends on your browser. You can export WebM today. MP4, MOV, AVI, MKV and GIF output need an FFmpeg engine, which is not connected yet.</p></details>
+<details><summary>Can I extract MP3 from a video?</summary><p class="mu">Yes. Choose MP3 in the Video Converter, or Extract WAV in the Video Editor.</p></details>
+<details><summary>Can I convert multiple files at once?</summary><p class="mu">Yes. Add several files and press Convert All.</p></details>
+<details><summary>Can I edit videos directly in the browser?</summary><p class="mu">Yes. Split, trim, filters, text, an image overlay and WebM export all run in your browser.</p></details>
+<details><summary>Can I edit multiple audio tracks?</summary><p class="mu">Not yet. The Audio Editor works on one file at a time, with undo.</p></details>
+<details><summary>Can I change bitrate and sample rate?</summary><p class="mu">Yes for MP3 bitrate (64 to 320 kbps) and for sample rate. MP3 is capped at 48 kHz.</p></details>
+<details><summary>Can I convert stereo audio to mono?</summary><p class="mu">Yes, in the Audio Converter.</p></details>
+<details><summary>Does MediaForge support 4K?</summary><p class="mu">With Original resolution it keeps your video's size if your browser can play it. Speed depends on your device.</p></details>
+<details><summary>Are my files stored permanently?</summary><p class="mu">No. Files stay in your browser and disappear when you close the tab.</p></details>
+<details><summary>How long does processing take?</summary><p class="mu">Audio is quick. WebM conversion and export run in real time, so a 2 minute video takes about 2 minutes.</p></details></div></section>
+</div>
+<div class="view" id="v-audio-converter"><div class="w" style="padding-top:40px;padding-bottom:60px">
+<h2>Audio Converter</h2><p class="mu">Convert audio to WAV right in your browser.</p>
+<div class="drop" id="adrop"><p><b>Drop your audio files here</b></p><p class="mu">or</p><button class="pri" id="abrowse">Browse files</button><input id="ain" type="file" accept="audio/*" multiple hidden></div>
+<div class="ctl"><label>Format<select id="afmt"><option value="wav">WAV</option><option value="mp3">MP3</option><option value="aac" class="srv" disabled>AAC (needs server)</option><option value="ogg" class="srv" disabled>OGG (needs server)</option><option value="flac" class="srv" disabled>FLAC (needs server)</option><option value="m4a" class="srv" disabled>M4A (needs server)</option><option value="opus" class="srv" disabled>OPUS (needs server)</option><option value="aiff" class="srv" disabled>AIFF (needs server)</option><option value="wma" class="srv" disabled>WMA (needs server)</option></select></label>
+<label>Bitrate<select id="abr"><option>64</option><option>96</option><option>128</option><option selected>192</option><option>256</option><option>320</option></select></label><label>Sample rate<select id="asr"><option value="22050">22.05 kHz</option><option value="44100" selected>44.1 kHz</option><option value="48000">48 kHz</option><option value="96000">96 kHz</option></select></label>
+<label>Channels<select id="ach"><option value="2">Stereo</option><option value="1">Mono</option></select></label>
+<label>&nbsp;<button class="pri" id="aall">Convert All</button></label></div>
+<div id="alist"><p class="mu">No files yet. Add audio to start.</p></div></div></div>
+
+<div class="view" id="v-video-converter"><div class="w" style="padding-top:40px;padding-bottom:60px">
+<h2>Video Converter</h2><p class="mu">Load videos and see their details.</p>
+<div class="note"><b>WebM, WAV and MP3 work in your browser.</b> Other formats need the MediaForge FFmpeg server and unlock automatically when it is running.</div>
+<div class="drop" id="vdrop"><p><b>Drop your videos here</b></p><p class="mu">or</p><button class="pri" id="vbrowse">Browse files</button><input id="vin" type="file" accept="video/*" multiple hidden></div>
+<div class="ctl"><label>Output<select id="vout"><option value="webm">WebM</option><option value="wav">WAV (audio only)</option><option value="mp4" class="srv" disabled>MP4 (needs server)</option><option value="mov" class="srv" disabled>MOV (needs server)</option><option value="avi" class="srv" disabled>AVI (needs server)</option><option value="mkv" class="srv" disabled>MKV (needs server)</option><option value="gif" class="srv" disabled>GIF (needs server)</option><option value="wmv" class="srv" disabled>WMV (needs server)</option><option value="flv" class="srv" disabled>FLV (needs server)</option><option value="mp3">MP3 (audio only)</option><option value="m4a" class="srv" disabled>M4A (audio only, needs server)</option><option value="aac" class="srv" disabled>AAC (audio only, needs server)</option><option value="ogg" class="srv" disabled>OGG (audio only, needs server)</option><option value="flac" class="srv" disabled>FLAC (audio only, needs server)</option></select></label>
+<label>Resolution<select id="vres"><option value="0">Original</option><option value="480">480p</option><option value="720">720p</option><option value="1080">1080p</option></select></label>
+<label>Crop to<select id="vasp"><option value="">Original</option><option value="9:16">9:16 Vertical</option><option value="1:1">1:1 Square</option><option value="4:5">4:5 Portrait</option><option value="16:9">16:9 Wide</option></select></label>
+<label>Preset<select id="vpre"><option value="">Custom</option><option value="1080">YouTube 1080p</option><option value="720">Web Optimized</option><option value="480">Mobile</option></select></label>
+<label>&nbsp;<button class="pri" id="vall">Convert All</button></label></div>
+<div id="vlist"><p class="mu">No files yet. Add videos to start.</p></div></div></div>
+<div class="view" id="v-audio-editor"><div class="w" style="padding-top:40px;padding-bottom:60px">
+<h2>Audio Editor</h2><p class="mu">Open a file, drag on the waveform to select, then trim, cut, add EQ and fades, and export.</p>
+<div class="drop" id="edrop"><p><b>Drop an audio file here</b></p><p class="mu">or</p><button class="pri" id="ebrowse">Browse files</button><input id="ein" type="file" accept="audio/*" hidden></div>
+<div id="ed" style="display:none"><canvas id="wf" style="width:100%;height:170px;background:var(--card);border:1px solid var(--bd);border-radius:12px;touch-action:none;margin-top:16px;cursor:crosshair" aria-label="Waveform: drag to select"></canvas>
+<div class="mu" id="etime" style="font-size:13px;margin-top:6px"></div>
+<div class="ctl" style="align-items:end"><button id="eback" aria-label="Back 5 seconds">⏪ Back 5s</button><button id="eplay" class="pri">Play</button><button id="estop">Stop</button><button id="efwd" aria-label="Forward 5 seconds">Forward 5s ⏩</button><button id="eclr">Clear</button><label><span>Loop</span><input type="checkbox" id="eloop"></label><button id="etrim">Trim to selection</button><button id="ecut">Cut selection</button><button id="eundo">Undo</button><button id="eexp" class="pri">Export WAV</button><button id="emp3" class="pri">Export MP3</button><label>More formats<select id="efmt"><option value="m4a" class="srv" disabled>M4A (needs server)</option><option value="aac" class="srv" disabled>AAC (needs server)</option><option value="ogg" class="srv" disabled>OGG (needs server)</option><option value="opus" class="srv" disabled>OPUS (needs server)</option><option value="flac" class="srv" disabled>FLAC (needs server)</option><option value="aiff" class="srv" disabled>AIFF (needs server)</option><option value="wma" class="srv" disabled>WMA (needs server)</option></select></label><button id="eexpx" class="pri">Export</button></div>
+<div class="ctl" id="esl"></div></div></div></div>
+<div class="view" id="v-video-editor"><div class="w" style="padding-top:40px;padding-bottom:60px"><h2>Video Editor</h2><p class="mu">Open a video, split clips, apply filters and transforms, add text, then export as WebM.</p>
+<div class="drop" id="vedrop"><p><b>Drop a video here</b></p><p class="mu">or</p><button class="pri" id="vebrowse">Browse files</button><input id="vein" type="file" accept="video/*" hidden></div>
+<div id="ve" style="display:none;margin-top:16px"><div class="ed2"><div><div style="position:relative;background:#000;border-radius:12px;overflow:hidden"><video id="vv" playsinline style="width:100%;display:block;max-height:60vh"></video><img id="vov" alt="" style="position:absolute;display:none;pointer-events:none"><div id="vtxt" style="position:absolute;left:0;right:0;bottom:10%;text-align:center;color:#fff;font-weight:700;font-size:clamp(14px,3vw,26px);text-shadow:0 2px 6px #000;pointer-events:none"></div></div>
+<div class="ctl"><button id="vback" aria-label="Back 5 seconds">⏪ Back 5s</button><button id="vplay" class="pri">Play</button><button id="vstop">Stop</button><button id="vfwd" aria-label="Forward 5 seconds">Forward 5s ⏩</button><button id="vclr">Clear</button><button id="vsplit">Split</button><label>Crop<select id="vcrop"><option value="0">Original</option><option value="0.5625">9:16</option><option value="1">1:1</option><option value="0.8">4:5</option><option value="1.7778">16:9</option></select></label><label>Title style<select id="vts"><option value="bottom">Caption</option><option value="title">Big title</option><option value="lower">Lower third</option></select></label><label>Transition<select id="vtr"><option value="">None</option><option value="fade">Dip to black</option><option value="wipe">Wipe</option></select></label><button id="vslow">Slow-mo 0.5×</button><button id="vlapse">Timelapse 4×</button><label>Zoom<input type="range" id="vzoom" min="1" max="8" step="0.5" value="1"></label><label>Clip volume<input type="range" id="vcv" min="0" max="2" step="0.05" value="1"></label><label>Music track<input type="file" id="vmus" accept="audio/*"></label><label>Music volume<input type="range" id="vmv" min="0" max="1" step="0.05" value="0.5"></label><button id="vmx">Remove music</button><button id="vdup">Duplicate clip</button><button id="vgif" class="srv" disabled>Export GIF (needs server)</button><button id="vtrim">Trim to clip</button><button id="vdel">Delete clip</button><label>Export as<select id="vfmt"><option value="webm">WebM</option><option value="mp4" class="srv" disabled>MP4 (needs server)</option><option value="mov" class="srv" disabled>MOV (needs server)</option><option value="mkv" class="srv" disabled>MKV (needs server)</option><option value="avi" class="srv" disabled>AVI (needs server)</option><option value="wmv" class="srv" disabled>WMV (needs server)</option><option value="flv" class="srv" disabled>FLV (needs server)</option><option value="gif" class="srv" disabled>GIF (needs server)</option></select></label><button id="vexp" class="pri">Export WebM</button><label>Audio as<select id="vafmt"><option value="wav">WAV</option><option value="mp3">MP3</option><option value="m4a" class="srv" disabled>M4A (needs server)</option><option value="aac" class="srv" disabled>AAC (needs server)</option><option value="ogg" class="srv" disabled>OGG (needs server)</option><option value="flac" class="srv" disabled>FLAC (needs server)</option></select></label><button id="vaud">Extract audio</button></div><div id="vtl" aria-label="Timeline"></div></div>
+<div class="card" id="vprops"></div></div></div></div></div>
+<div class="view" id="v-about"><div class="w" style="padding-top:40px;padding-bottom:60px;max-width:760px"><h2>About</h2><p>MediaForge is a free toolkit for editing and converting video and audio. Most work happens in your browser; heavier formats use the optional FFmpeg server.</p></div></div><div class="view" id="v-contact"><div class="w" style="padding-top:40px;padding-bottom:60px;max-width:760px"><h2>Contact</h2><p>Questions or feedback? Email <b>hello@mediaforge.example</b> (replace with your real address).</p></div></div><div class="view" id="v-privacy"><div class="w" style="padding-top:40px;padding-bottom:60px;max-width:760px"><h2>Privacy</h2><p>Files processed in the browser never leave your device. When the FFmpeg server is used, files are uploaded for conversion and deleted as soon as the result is sent. We do not sell data.</p><p class="mu">Placeholder text: have it reviewed before going public.</p></div></div><div class="view" id="v-terms"><div class="w" style="padding-top:40px;padding-bottom:60px;max-width:760px"><h2>Terms</h2><p>MediaForge is provided as is, without warranty. You are responsible for having the rights to the media you process.</p><p class="mu">Placeholder text: have it reviewed before going public.</p></div></div><div class="view" id="v-docs"><div class="w" style="padding-top:40px;padding-bottom:60px;max-width:760px"><h2>Documentation</h2><h3>Video Editor</h3><p>Open a video, split, duplicate or delete clips, apply filters, add text, then export WebM (or GIF with the server).</p><h3>Audio Editor</h3><p>Drag on the waveform to select, then trim, cut, add EQ, fades and effects, and export WAV or MP3 (M4A, AAC, OGG, OPUS, FLAC, AIFF and WMA with the FFmpeg server). Any audio or video file can be opened; formats your browser cannot read are converted by the server automatically.</p><h3>Converters</h3><p>Add files, choose a format, then Convert All. Use Cancel, Retry and Download All for batches.</p><h3>FFmpeg server</h3><p>Run <code>npm install &amp;&amp; node server.js</code> to unlock MP4, MOV, MKV, AVI, GIF, AAC, M4A, OGG and FLAC.</p></div></div><div class="view" id="v-tutorials"><div class="w" style="padding-top:40px;padding-bottom:60px;max-width:760px"><h2>Tutorials</h2><ol><li>Click Upload Video or Upload Audio on the home page.</li><li>Drop a file or press Browse files.</li><li>Edit, then export or send it to a converter.</li></ol></div></div><div class="view" id="v-dashboard"></div><div class="view" id="v-files"></div><div class="view" id="v-tools"></div>
+</main>
+<footer><div class="w"><div class="fg"><div><a class="logo" href="#home"><i>▶</i>MediaForge</a><p>Edit, convert &amp; enhance your video and audio.</p></div><div><b>Product</b><a href="#video-editor">Video Editor</a><a href="#video-converter">Video Converter</a><a href="#audio-editor">Audio Editor</a><a href="#audio-converter">Audio Converter</a></div><div><b>Resources</b><a href="#faq">FAQ</a><a href="#how">How It Works</a><a href="#features">Features</a></div><div><b>Company</b><a href="#about">About</a><a href="#contact">Contact</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a></div></div><p>© MediaForge</p></div></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const FILES=[],LOG=[],ADD={},stats={v:0,a:0,x:0};const VIEWS=["video-editor","audio-editor","audio-converter","video-converter","dashboard","files","tools","about","contact","privacy","terms","docs","tutorials"];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)};
+const fmt=n=>n>1e6?(n/1e6).toFixed(1)+' MB':Math.ceil(n/1e3)+' KB';
+const dur=s=>isFinite(s)?Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'):'–';
+// Feature cards
+[['Video Editor','Split, filters, transforms, text, WebM export','Working','#video-editor'],['Video Converter','WebM and WAV now, more with FFmpeg','Partly working','#video-converter'],['Audio Editor','Waveform, selection, trim, cut, EQ, fades','Working','#audio-editor'],['Audio Converter','Convert to WAV, sample rate, mono/stereo','Working','#audio-converter'],['Dashboard','Stats and recent activity','Working','#dashboard'],['My Files','Rename, edit, convert, download','Working','#files'],['Background & Watermark','Provider interface only','Not configured','#tools'],['Audio Extraction','Video to WAV now, MP3 needs FFmpeg','Partly working','#video-converter']].forEach(f=>$('#fgrid').insertAdjacentHTML('beforeend',`<a class="card" href="${f[3]}" style="display:block"><span class="tag">${f[2]}</span><h3>${f[0]}</h3><p>${f[1]}</p></a>`));
+// Router + menu
+function route(){const h=(location.hash||'#home').slice(1),v=VIEWS.includes(h)?h:'home';
+$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));$$('#menu a[data-v]').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+$('#menu').classList.remove('open');try{v==='dashboard'&&renderDash();v==='files'&&renderFiles()}catch(e){}if(v==='home'&&h!=='home'){const t=document.getElementById(h);t&&t.scrollIntoView()}else scrollTo(0,0)}
+addEventListener('hashchange',route);route();
+$('#mb').onclick=e=>{const o=$('#menu').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)};
+// Processing services (UI never touches implementation details)
+function mp3Blob(out,kbps){if(!window.lamejs)throw Error('MP3 encoder did not load');const ch=Math.min(2,out.numberOfChannels),enc=new lamejs.Mp3Encoder(ch,out.sampleRate,kbps),cv=a=>{const r=new Int16Array(a.length);for(let i=0;i<a.length;i++){const v=Math.max(-1,Math.min(1,a[i]));r[i]=v<0?v*32768:v*32767}return r},L=cv(out.getChannelData(0)),R=ch>1?cv(out.getChannelData(1)):null,parts=[];
+ for(let i=0;i<L.length;i+=1152){const b=ch>1?enc.encodeBuffer(L.subarray(i,i+1152),R.subarray(i,i+1152)):enc.encodeBuffer(L.subarray(i,i+1152));b.length&&parts.push(new Uint8Array(b))}parts.push(new Uint8Array(enc.flush()));return new Blob(parts,{type:'audio/mpeg'})}
+const wavBlob=out=>{const ch=out.numberOfChannels,n=out.length,d=new DataView(new ArrayBuffer(44+n*ch*2)),sr=out.sampleRate;
+ const w=(o,t)=>[...t].forEach((c,i)=>d.setUint8(o+i,c.charCodeAt(0)));
+ w(0,'RIFF');d.setUint32(4,36+n*ch*2,true);w(8,'WAVEfmt ');d.setUint32(16,16,true);d.setUint16(20,1,true);d.setUint16(22,ch,true);d.setUint32(24,sr,true);d.setUint32(28,sr*ch*2,true);d.setUint16(32,ch*2,true);d.setUint16(34,16,true);w(36,'data');d.setUint32(40,n*ch*2,true);
+ const D=[...Array(ch)].map((_,c)=>out.getChannelData(c));let p=44;
+ for(let i=0;i<n;i++)for(let c=0;c<ch;c++){const v=Math.max(-1,Math.min(1,D[c][i]));d.setInt16(p,v<0?v*32768:v*32767,true);p+=2}
+ return new Blob([d],{type:'audio/wav'})};
+// Saving: published pages must use the downloads capability, which does not accept .wav, so audio is zipped.
+const crcT=[...Array(256)].map((_,n)=>{for(let k=0;k<8;k++)n=n&1?3988292384^n>>>1:n>>>1;return n>>>0});
+const crc=u=>{let c=-1;for(const b of u)c=crcT[(c^b)&255]^c>>>8;return(c^-1)>>>0};
+const pack=a=>{const n=a.reduce((t,x)=>t+x[0],0),d=new DataView(new ArrayBuffer(n));let o=0;for(const[z,v]of a){z==4?d.setUint32(o,v,true):d.setUint16(o,v,true);o+=z}return new Uint8Array(d.buffer)};
+async function zip(name,blob){const u=new Uint8Array(await blob.arrayBuffer()),nm=new TextEncoder().encode(name),c=crc(u),l=u.length,k=nm.length;
+ const a=pack([[4,0x04034b50],[2,20],[2,0],[2,0],[2,0],[2,0x21],[4,c],[4,l],[4,l],[2,k],[2,0]]);
+ const b=pack([[4,0x02014b50],[2,20],[2,20],[2,0],[2,0],[2,0],[2,0x21],[4,c],[4,l],[4,l],[2,k],[2,0],[2,0],[2,0],[2,0],[4,0],[4,0]]);
+ const e=pack([[4,0x06054b50],[2,0],[2,0],[2,1],[2,1],[4,46+k],[4,30+k+l],[2,0]]);
+ return new Blob([a,nm,u,b,nm,e],{type:'application/zip'})}
+async function saveFile(blob,name){const dl=window.claude?await claude.use('downloads'):null;
+ if(!window.claude){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();return}
+ if(!dl)return toast('Saving is not available in this view. Use the player to listen.');
+ try{if(!/\.(gif|png|jpe?g|webp|mp4|webm|txt|json|md|zip)$/i.test(name)){blob=await zip(name,blob);name+='.zip'}await dl.save({filename:name,data:blob})}catch(e){if(e&&e.code!=='declined')toast('Save failed: '+(e.message||e.code))}}
+// Format detection by extension too (Windows often gives an empty MIME type for m4a, mkv, flac...)
+const AUDX=/\.(mp3|wav|m4a|aac|ogg|oga|opus|flac|wma|aiff?|aif|amr|mka|caf|ac3|mp2|weba|mid)$/i,VIDX=/\.(mp4|m4v|mov|mkv|avi|wmv|flv|webm|3gp|3g2|mpe?g|ts|mts|m2ts|ogv|vob|asf|divx|f4v)$/i;
+const isAud=f=>/^audio\//.test(f.type)||AUDX.test(f.name),isVid=f=>/^video\//.test(f.type)||VIDX.test(f.name),isMedia=f=>isAud(f)||isVid(f);
+const ACCEPT_A='audio/*,video/*,.mp3,.wav,.m4a,.aac,.ogg,.oga,.opus,.flac,.wma,.aiff,.aif,.amr,.mka,.caf,.ac3,.mp2,.mp4,.mov,.mkv,.avi,.wmv,.flv,.webm,.3gp',ACCEPT_V='video/*,.mp4,.m4v,.mov,.mkv,.avi,.wmv,.flv,.webm,.3gp,.3g2,.mpg,.mpeg,.ts,.mts,.m2ts,.ogv,.vob,.asf';
+// Decode any audio/video file. The browser tries first; if it cannot read the format, the FFmpeg server converts it to WAV.
+async function decodeAny(file,onP){
+ // 1) Try the browser directly. Very large files (over ~2 GB) cannot be read into memory, so any failure here falls through to the server.
+ try{const ab=await file.arrayBuffer();const c=new (window.AudioContext||webkitAudioContext)();try{return await c.decodeAudioData(ab)}finally{c.close()}}catch(e){}
+ const ext=(file.name.split('.').pop()||'').toUpperCase();
+ if(!ffmpegService.configured)throw Error('This browser cannot read '+ext+' files. Start the MediaForge server so FFmpeg can open every format.');
+ const own=!onP;if(own){prog.show('Converting '+ext+' on server');onP=p=>prog.set(p)}
+ // 2) Server converts to WAV. If the browser cannot decode a large WAV, retry smaller (mono, 22.05 kHz).
+ const tries=[{format:'wav',sampleRate:44100,channels:2},{format:'wav',sampleRate:22050,channels:1}];
+ try{
+  for(let i=0;i<tries.length;i++){
+   let wav;
+   try{wav=await ffmpegService.convert(file,tries[i],onP)}
+   catch(e){throw Error(/No audio|Conversion failed/.test(e.message)?'No readable audio found in '+file.name:e.message)}
+   if(wav.size>1.9e9)continue;
+   try{const c=new (window.AudioContext||webkitAudioContext)();try{return await c.decodeAudioData(await wav.arrayBuffer())}finally{c.close()}}catch(e){}
+  }
+  throw Error('This audio is too long to open in the browser editor. Use the Audio Converter to convert it on the server instead.');
+ }finally{own&&prog.hide()}}
+const audioProcessor={async toWav(file,{sampleRate,channels,fmt,kbps},onP){
+ const buf=await decodeAny(file,p=>onP(p*.4));onP(.4);
+ const len=Math.ceil(buf.duration*sampleRate),off=new OfflineAudioContext(channels,len,sampleRate),src=off.createBufferSource();
+ src.buffer=buf;src.connect(off.destination);src.start();const out=await off.startRendering();onP(.8);
+ onP(1);return fmt==="mp3"?mp3Blob(out,kbps):wavBlob(out)}};
+const ffmpegService={configured:false,async convert(){throw new Error('FFmpeg provider not configured')}};
+// Generic batch list
+function batch(opt){const files=[];const list=$(opt.list);
+ const draw=()=>{list.innerHTML=files.length?files.map((f,i)=>`<div class="row"><div><b>${f.file.name}</b><br><small>${f.meta||'<span class="sk" style="display:inline-block;width:120px;height:10px"></span>'} · ${fmt(f.file.size)}</small>${f.url?`<audio controls src="${f.url}" style="width:100%;margin-top:6px"></audio>`:''}</div><div><div class="bar" aria-label="Progress"><i style="width:${f.p*100}%"></i></div><small>${f.status}${f.p>0&&f.p<1?' '+Math.round(f.p*100)+'%':''}</small></div><div>${f.blob?`<button data-d="${i}">Download</button>`:`<button data-c="${i}">${/^(Failed|Cancelled)/.test(f.status)?'Retry':'Convert'}</button>`} <button data-x="${i}" aria-label="Remove">✕</button></div></div>`).join(''):`<p class="mu">No files yet. ${opt.empty}</p>`};
+ const add=async fs=>{for(const file of fs){const f={file,p:0,status:'Waiting'};files.push(f);reg(file,opt.type);opt.meta&&opt.meta(f).then(m=>{f.meta=m;draw()})}draw();toast(fs.length+' file(s) added')};
+ ADD[opt.type]=add;let cancel=false;const run=async f=>{if(cancel){f.status='Cancelled';draw();return}f.status='Converting...';f.p=.1;draw();try{f.blob=await opt.run(f,p=>{f.p=p;draw()});f.status='Complete';done(opt.type,f.file.name,'Converted');if(opt.preview)f.url=URL.createObjectURL(f.blob);toast('Complete: '+f.file.name)}catch(e){f.status='Failed: '+e.message;f.p=0;toast(e.message)}draw()};
+ const drop=$(opt.drop),inp=$(opt.inp);$(opt.browse).onclick=()=>inp.click();inp.onchange=()=>{add([...inp.files]);inp.value=''};
+ ['dragover','dragenter'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.add('over')}));
+ ['dragleave','drop'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.remove('over')}));
+ drop.addEventListener('drop',x=>add([...x.dataTransfer.files].filter(f=>opt.type==='audio'?isMedia(f):isVid(f))));
+ $(opt.all).onclick=async()=>{if(!files.length)return toast('Add files first');cancel=false;for(const f of files)if(!f.blob)await run(f)};
+ const bx=document.createElement('button');bx.textContent='Cancel';bx.onclick=()=>{cancel=true;files.forEach(f=>{if(!f.blob&&f.status==='Waiting')f.status='Cancelled'});draw();toast('Queued files cancelled')};
+ const bd=document.createElement('button');bd.textContent='Download All';bd.onclick=()=>{const d=files.filter(f=>f.blob);if(!d.length)return toast('Nothing converted yet');d.forEach((f,i)=>setTimeout(()=>saveFile(f.blob,f.file.name.replace(/\.[^.]+$/,'')+(opt.ext.call?opt.ext():opt.ext)),i*400))};
+ const bc=document.createElement('button');bc.textContent='Clear all';bc.onclick=()=>{cancel=true;files.forEach(f=>{f.url&&URL.revokeObjectURL(f.url)});files.length=0;draw();toast('List cleared')};
+ $(opt.all).parentNode.append(bx,bd,bc);
+ list.onclick=e=>{const b=e.target.closest('button');if(!b)return;const D=b.dataset;
+  if(D.c!=null){cancel=false;run(files[D.c])}if(D.x!=null){files.splice(D.x,1);draw()}
+  if(D.d!=null){const f=files[D.d];saveFile(f.blob,f.file.name.replace(/\.[^.]+$/,'')+(opt.ext.call?opt.ext():opt.ext))}};
+ draw()}
+batch({list:'#alist',drop:'#adrop',inp:'#ain',browse:'#abrowse',all:'#aall',type:'audio',preview:1,ext:()=>'.'+$('#afmt').value,empty:'Add audio to start.',
+ meta:async f=>f.file.type||'audio',
+ run:(f,p)=>audioProcessor.toWav(f.file,{sampleRate:$('#afmt').value==='mp3'?Math.min(48000,+$('#asr').value):+$('#asr').value,channels:+$('#ach').value,fmt:$('#afmt').value,kbps:+$('#abr').value},p)});
+batch({list:'#vlist',drop:'#vdrop',inp:'#vin',browse:'#vbrowse',all:'#vall',type:'video',ext:()=>'.'+$('#vout').value,empty:'Add videos to start.',
+ meta:f=>new Promise(r=>{const v=document.createElement('video');v.preload='metadata';v.onloadedmetadata=()=>{r(`${dur(v.duration)} · ${v.videoWidth}×${v.videoHeight} · ${f.file.name.split('.').pop().toUpperCase()}`);URL.revokeObjectURL(v.src)};v.onerror=()=>r('Unreadable in browser');v.src=URL.createObjectURL(f.file)}),
+ run:(f,p)=>vconv(f,p)});
+
+// Audio editor
+const E={buf:null,hist:[],sel:null,pos:0,src:null,t0:0,playing:false,ctx:null,live:null};
+const par={vol:1,rate:1,fi:0,fo:0,eq:[0,0,0,0,0],comp:0,dl:0,rv:0,norm:0};
+const EQ=[['Bass','lowshelf',100],['Low Mid','peaking',400],['Mid','peaking',1000],['High Mid','peaking',3000],['Treble','highshelf',8000]];
+const rg=(k,l,mn,mx,st,v)=>`<label>${l}<input type="range" data-k="${k}" min="${mn}" max="${mx}" step="${st}" value="${v}"></label>`;
+$('#esl').innerHTML=rg('vol','Volume',0,2,.05,1)+`<label>Speed<select data-k="rate">${[.5,.75,1,1.25,1.5,2].map(r=>`<option ${r==1?'selected':''}>${r}</option>`).join('')}</select></label>`+rg('fi','Fade in (s)',0,5,.5,0)+rg('fo','Fade out (s)',0,5,.5,0)+EQ.map((e,i)=>rg('eq'+i,e[0]+' dB',-12,12,1,0)).join('');
+const pk=()=>{let m=0;for(let c=0;c<E.buf.numberOfChannels;c++){const d=E.buf.getChannelData(c);for(let i=0;i<d.length;i+=16)m=Math.max(m,Math.abs(d[i]))}return m||1},gv=()=>par.vol*(par.norm?.95/pk():1);
+const wet=(ctx,n,fx,amt)=>{const sum=ctx.createGain(),m=ctx.createGain();m.gain.value=amt/100;n.connect(sum);n.connect(fx);fx.connect(m);m.connect(sum);return sum};
+function graph(ctx,buf,rate,dest){const src=ctx.createBufferSource();src.buffer=buf;src.playbackRate.value=rate;let n=src;const fl=EQ.map(e=>{const f=ctx.createBiquadFilter();f.type=e[1];f.frequency.value=e[2];n.connect(f);n=f;return f});
+ fl.forEach((f,i)=>f.gain.value=par.eq[i]);
+ if(par.comp){const c=ctx.createDynamicsCompressor();c.threshold.value=-30;c.ratio.value=6;n.connect(c);n=c}
+ if(par.dl){const d=ctx.createDelay(1),fb=ctx.createGain();d.delayTime.value=.3;fb.gain.value=.4;d.connect(fb);fb.connect(d);n=wet(ctx,n,d,par.dl)}
+ if(par.rv){const L=Math.floor(ctx.sampleRate*1.8),ib=ctx.createBuffer(2,L,ctx.sampleRate);for(let c=0;c<2;c++){const a=ib.getChannelData(c);for(let i=0;i<L;i++)a[i]=(Math.random()*2-1)*Math.pow(1-i/L,2.5)}const cv=ctx.createConvolver();cv.buffer=ib;n=wet(ctx,n,cv,par.rv)}
+ if(par.lim){const l=ctx.createDynamicsCompressor();l.threshold.value=-3;l.knee.value=0;l.ratio.value=20;l.attack.value=.001;l.release.value=.1;n.connect(l);n=l}
+ const g=ctx.createGain();g.gain.value=gv();n.connect(g);g.connect(dest);return{src,g,fl}}
+function fades(g,t,d,loop){g.gain.cancelScheduledValues(t);const v=gv();if(par.fi){g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+par.fi)}
+ if(par.fo&&!loop&&d>par.fo){g.gain.setValueAtTime(v,t+d-par.fo);g.gain.linearRampToValueAtTime(0,t+d)}}
+const region=()=>E.sel?E.sel:[0,E.buf.duration];
+function draw(){const c=$('#wf'),r=devicePixelRatio||1,W=c.width=c.clientWidth*r,H=c.height=c.clientHeight*r,x=c.getContext('2d'),d=E.buf.getChannelData(0),per=d.length/W,cs=getComputedStyle(document.body);
+ x.clearRect(0,0,W,H);if(E.sel){x.fillStyle='#2563eb33';x.fillRect(E.sel[0]/E.buf.duration*W,0,(E.sel[1]-E.sel[0])/E.buf.duration*W,H)}
+ x.fillStyle='#7C3AED';for(let i=0;i<W;i++){let m=0;for(let j=Math.floor(i*per),e=Math.min(d.length,Math.floor((i+1)*per));j<e;j+=Math.max(1,Math.floor(per/20)))m=Math.max(m,Math.abs(d[j]));x.fillRect(i,H/2-m*H/2,1,Math.max(1,m*H))}
+ let cur=E.pos;if(E.playing){const[a,b]=region();cur=E.pos+(E.ctx.currentTime-E.t0)*par.rate;if($('#eloop').checked&&cur>=b)cur=a+(cur-a)%(b-a)}
+ x.fillStyle='#06B6D4';x.fillRect(cur/E.buf.duration*W,0,2*r,H);$('#etime').textContent=`${dur(cur)} / ${dur(E.buf.duration)}`+(E.sel?` · selected ${(E.sel[1]-E.sel[0]).toFixed(2)}s`:'')}
+function tick(){draw();if(E.playing)requestAnimationFrame(tick)}
+function stop(reset){if(E.src){E.src.onended=null;try{E.src.stop()}catch(e){}}E.src=null;E.playing=false;$('#eplay').textContent='Play';if(reset)E.pos=region()[0];if(E.buf)draw()}
+function play(){E.ctx=E.ctx||new(window.AudioContext||webkitAudioContext)();E.ctx.resume();const[a,b]=region();if(E.pos<a||E.pos>=b)E.pos=a;
+ const loop=$('#eloop').checked,gr=graph(E.ctx,E.buf,par.rate,E.ctx.destination);gr.src.loop=loop;gr.src.loopStart=a;gr.src.loopEnd=b;
+ E.t0=E.ctx.currentTime;fades(gr.g,E.t0,(b-E.pos)/par.rate,loop);if(loop)gr.src.start(0,E.pos);else gr.src.start(0,E.pos,b-E.pos);
+ gr.src.onended=()=>{if(E.playing){stop(true)}};E.src=gr.src;E.live=gr;E.playing=true;$('#eplay').textContent='Pause';tick()}
+function push(){E.hist.push(E.buf)}
+function slice(parts){const n=parts.reduce((t,p)=>t+(p[1]-p[0]),0),o=new AudioContext().createBuffer(E.buf.numberOfChannels,n,E.buf.sampleRate);
+ for(let c=0;c<o.numberOfChannels;c++){let k=0;for(const[a,b]of parts){o.getChannelData(c).set(E.buf.getChannelData(c).subarray(a,b),k);k+=b-a}}return o}
+const fr=t=>Math.round(t*E.buf.sampleRate);
+async function load(file){try{stop();const b=await decodeAny(file);E.buf=b;E.hist=[];E.sel=null;E.pos=0;$('#ed').style.display='block';draw();toast('Loaded '+file.name)}catch(e){toast(e.message||'Could not read this audio file')}}
+$('#ebrowse').onclick=()=>$('#ein').click();$('#ein').onchange=e=>{e.target.files[0]&&load(e.target.files[0]);e.target.value=''};
+['dragover','dragenter'].forEach(v=>$('#edrop').addEventListener(v,x=>{x.preventDefault();$('#edrop').classList.add('over')}));
+['dragleave','drop'].forEach(v=>$('#edrop').addEventListener(v,x=>{x.preventDefault();$('#edrop').classList.remove('over')}));
+$('#edrop').addEventListener('drop',x=>{const f=[...x.dataTransfer.files].find(isMedia);f?load(f):toast('That file type is not supported')});
+$('#eplay').onclick=()=>E.playing?(E.pos+=(E.ctx.currentTime-E.t0)*par.rate,stop()):play();
+$('#estop').onclick=()=>stop(true);
+$('#etrim').onclick=()=>{if(!E.sel)return toast('Drag on the waveform to select first');stop();push();E.buf=slice([[fr(E.sel[0]),fr(E.sel[1])]]);E.sel=null;E.pos=0;draw();toast('Trimmed')};
+$('#ecut').onclick=()=>{if(!E.sel)return toast('Drag on the waveform to select first');stop();push();E.buf=slice([[0,fr(E.sel[0])],[fr(E.sel[1]),E.buf.length]]);E.sel=null;E.pos=0;draw();toast('Cut')};
+$('#eundo').onclick=()=>{if(!E.hist.length)return toast('Nothing to undo');stop();E.buf=E.hist.pop();E.sel=null;E.pos=0;draw()};
+$('#esl').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;const v=e.target.type==='checkbox'?+e.target.checked:+e.target.value;if(k.startsWith('eq')){par.eq[+k.slice(2)]=v;E.live&&E.playing&&(E.live.fl[+k.slice(2)].gain.value=v)}else{par[k]=v;if((k==='vol'||k==='norm')&&E.live&&E.playing)E.live.g.gain.value=gv();if(k==='rate'&&E.playing){E.pos+= (E.ctx.currentTime-E.t0)*0;E.live.src.playbackRate.value=v}}});
+const expo=async fmt=>{try{const[a,b]=region(),n=fr(b)-fr(a),rate=par.rate,len=Math.ceil(n/rate),off=new OfflineAudioContext(E.buf.numberOfChannels,len,E.buf.sampleRate),gr=graph(off,E.buf,rate,off.destination);fades(gr.g,0,len/E.buf.sampleRate,false);if(aud(M))gr.src.start(0,a,b-a);for(const t of E.tr)if(aud(t)){const q=off.createBufferSource(),g=off.createGain();g.gain.value=t.vol;q.buffer=t.buf;q.connect(g);g.connect(off.destination);q.start(Math.max(0,t.off-a),Math.max(0,a-t.off))}prog.show('Exporting '+fmt.toUpperCase());const dd=len/E.buf.sampleRate;for(let k=1;k<8;k++){const t=Math.floor(dd*k/8*off.sampleRate/128)*128/off.sampleRate;off.suspend(t).then(()=>{prog.set(k/8*.85);off.resume()}).catch(()=>{})}const out=await off.startRendering();prog.set(.92,'Encoding '+fmt.toUpperCase());await new Promise(r=>setTimeout(r,40));stats.x++;done('audio','Audio edit','Exported');let blob;if(fmt==='mp3')blob=mp3Blob(out,192);else if(fmt==='wav')blob=wavBlob(out);else{if(!ffmpegService.configured)throw Error('Start the MediaForge server to export '+fmt.toUpperCase());prog.set(.93,'Converting to '+fmt.toUpperCase()+' on server');blob=await ffmpegService.convert(wavBlob(out),{format:fmt,bitrate:192},p=>prog.set(.93+p*.07))}prog.set(1);prog.hide();toast('Complete');saveFile(blob,'mediaforge-edit.'+fmt)}catch(e){prog.hide();toast(e.message)}};
+$('#eexp').onclick=()=>expo('wav');$('#emp3').onclick=()=>expo('mp3');$('#eexpx').onclick=()=>expo($('#efmt').value);
+const cv=$('#wf'),tm=e=>{const r=cv.getBoundingClientRect();return Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*E.buf.duration};let a0=null;
+cv.onpointerdown=e=>{a0=tm(e);cv.setPointerCapture(e.pointerId)};
+cv.onpointermove=e=>{if(a0==null)return;const t=tm(e);if(Math.abs(t-a0)>.05){E.sel=[Math.min(a0,t),Math.max(a0,t)];draw()}};
+cv.onpointerup=e=>{const t=tm(e);if(Math.abs(t-a0)<=.05){stop();E.sel=null;E.pos=t}a0=null;draw()};
+addEventListener('resize',()=>E.buf&&draw());
+
+// Shared registry, dashboard, files
+const esc=t=>t.replace(/[&<>"]/g,c=>'&#'+c.charCodeAt(0)+';');
+function reg(file,type){if(!FILES.some(x=>x.file===file)){const f={file,type,name:file.name,date:new Date(),status:'Ready'};FILES.push(f);const m=document.createElement(type==='video'?'video':'audio');m.preload='metadata';m.onloadedmetadata=()=>{f.dur=m.duration;if(type==='video')m.currentTime=Math.min(1,m.duration/2);else URL.revokeObjectURL(m.src)};m.onseeked=()=>{try{const c=document.createElement('canvas');c.width=96;c.height=54;c.getContext('2d').drawImage(m,0,0,96,54);f.th=c.toDataURL('image/jpeg',.6)}catch(e){}URL.revokeObjectURL(m.src)};m.src=URL.createObjectURL(file)}}
+function done(type,name,verb){type==='video'?stats.v++:stats.a++;LOG.unshift({v:verb,n:name,t:new Date()})}
+function renderDash(){const h=new Date().getHours();$('#v-dashboard').innerHTML=`<div class="w" style="padding-top:40px;padding-bottom:60px"><h2>${h<12?'Good morning':h<18?'Good afternoon':'Good evening'}</h2><p class="mu">Manage your media projects</p><div class="grid">${[['Videos Processed',stats.v],['Audio Files',stats.a],['Storage Used',fmt(FILES.reduce((t,f)=>t+f.file.size,0))],['Projects',stats.x]].map(x=>`<div class="card"><p>${x[0]}</p><h3 style="font-size:28px">${x[1]}</h3></div>`).join('')}</div><h3 style="margin-top:28px">Quick actions</h3><div class="ctl"><a class="btn pri" href="#video-editor">Edit Video</a><a class="btn" href="#video-converter">Convert Video</a><a class="btn" href="#audio-editor">Edit Audio</a><a class="btn" href="#audio-converter">Convert Audio</a></div><h3>Recent activity</h3>${LOG.length?LOG.slice(0,8).map(l=>`<div class="row"><b>${esc(l.n)}</b><small>${l.v}</small><small>${l.t.toLocaleTimeString()}</small></div>`).join(''):'<p class="mu">Nothing yet. Edit or convert a file and it will show up here.</p>'}</div>`}
+let ren=-1,del=-1;
+function renderFiles(){$('#v-files').innerHTML=`<div class="w" style="padding-top:40px;padding-bottom:60px"><h2>My Files</h2><p class="mu">Files from this browser session. They are not stored anywhere.</p>`+(FILES.length?FILES.map((f,i)=>`<div class="row" style="grid-template-columns:1fr auto"><div>${ren===i?`<input data-n="${i}" value="${esc(f.name)}" aria-label="File name">`:`${f.th?`<img src="${f.th}" alt="" style="width:64px;height:36px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:8px">`:''}<b>${esc(f.name)}</b>`}<br><small>${f.type} · ${f.dur?dur(f.dur)+' · ':''}${fmt(f.file.size)} · ${f.date.toLocaleString()} · ${f.status}</small></div><div><button data-a="edit" data-i="${i}">Edit</button> <button data-a="conv" data-i="${i}">Convert</button> <button data-a="dl" data-i="${i}">Download</button> <button data-a="ren" data-i="${i}">Rename</button> <button data-a="del" data-i="${i}">${del===i?'Confirm delete':'Delete'}</button></div></div>`).join(''):'<div class="drop"><p><b>No files yet</b></p><p class="mu">Add a file in any editor or converter and it will appear here.</p></div>')+'</div>'}
+$('#v-files').onclick=e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.i,f=FILES[i],a=b.dataset.a;
+ if(a==='edit'){location.hash=f.type==='video'?'#video-editor':'#audio-editor';setTimeout(()=>(f.type==='video'?vload:load)(f.file),60)}
+ if(a==='conv'){location.hash=f.type==='video'?'#video-converter':'#audio-converter';setTimeout(()=>ADD[f.type]([f.file]),60)}
+ if(a==='dl')saveFile(f.file,f.name);if(a==='ren'){ren=i;renderFiles()}
+ if(a==='del'){ask('Delete "'+f.name+'"? This cannot be undone.').then(ok=>{if(ok){FILES.splice(i,1);toast('Deleted')}renderFiles()})}};
+$('#v-files').addEventListener('change',e=>{const i=e.target.dataset.n;if(i!=null){FILES[i].name=e.target.value||FILES[i].name;ren=-1;renderFiles()}});
+// Recording helpers
+function mkRec(cv,v,mon){if(!window.MediaRecorder)throw Error('This browser cannot record video');const c=v._c||(v._c=new AudioContext());c.resume();const s=v._s||(v._s=c.createMediaElementSource(v)),d=c.createMediaStreamDestination();s.disconnect();const vg=c.createGain();s.connect(vg);vg.connect(d);if(mon)s.connect(c.destination);
+ const st=cv.captureStream(30);d.stream.getAudioTracks().forEach(t=>st.addTrack(t));const ch=[],rec=new MediaRecorder(st);rec.ondataavailable=e=>e.data.size&&ch.push(e.data);return{rec,c,d,vg,done:new Promise(r=>rec.onstop=()=>r(new Blob(ch,{type:'video/webm'})))}}
+async function vconv(f,p){const o=$('#vout').value;
+ if(o==='mp3'){const b=await decodeAny(f.file,p);p(1);return mp3Blob(b,192)}
+ if(o==='wav'){const b=await decodeAny(f.file,p);p(1);return wavBlob(b)}
+ const v=document.createElement('video');v.src=URL.createObjectURL(f.file);await new Promise((r,j)=>{v.onloadedmetadata=r;v.onerror=()=>j(Error('Unreadable video'))});
+ const H=+$('#vres').value,sc=H?H/v.videoHeight:1,cv=document.createElement('canvas');cv.width=Math.round(v.videoWidth*sc/2)*2;cv.height=Math.round(v.videoHeight*sc/2)*2;const x=cv.getContext('2d'),R=mkRec(cv,v,false);
+ R.rec.start();await v.play();await new Promise(r=>{v.onended=r;const g=()=>{x.drawImage(v,0,0,cv.width,cv.height);p(v.currentTime/v.duration);v.ended?r():requestAnimationFrame(g)};g()});R.rec.stop();return R.done}
+$('#vpre').onchange=e=>{$('#vres').value=e.target.value||'0'};
+// Video editor
+const VE={clips:[],sel:0,file:null},vv=$('#vv'),vp={b:100,c:100,s:100,bl:0,o:100,sc:100,r:0,fh:0,fv:0,fi:0,fo:0,pre:'none',tx:'',rate:1};
+const PRE={none:'',bw:'grayscale(1)',vintage:'sepia(.6)',cool:'hue-rotate(190deg)',warm:'sepia(.3) saturate(1.4)'};
+const filt=()=>`brightness(${vp.b}%) contrast(${vp.c}%) saturate(${vp.s}%) blur(${vp.bl}px) ${PRE[vp.pre]}`;
+const flip=()=>[vp.sc/100*(vp.fh?-1:1),vp.sc/100*(vp.fv?-1:1)];
+function applyV(){ovp();vv.style.filter=filt();vv.style.opacity=vp.o/100;vv.style.transform=`rotate(${vp.r}deg) scale(${flip()})`;$('#vtxt').textContent=vp.tx;$('#vtxt').style.display=vp.tx?'':'none'}
+const vr=(k,l,mn,mx,v)=>`<label>${l}<input type="range" data-p="${k}" min="${mn}" max="${mx}" value="${v}"></label>`;
+$('#vprops').innerHTML='<h3>Properties</h3><div class="ctl" style="flex-direction:column">'+vr('b','Brightness',0,200,100)+vr('c','Contrast',0,200,100)+vr('s','Saturation',0,200,100)+vr('bl','Blur',0,10,0)+vr('o','Opacity',10,100,100)+vr('sc','Scale',50,200,100)+vr('r','Rotation',-180,180,0)+vr('fi','Fade in (s)',0,5,0)+vr('fo','Fade out (s)',0,5,0)+`<label>Filter<select data-p="pre"><option value="none">None</option><option value="bw">Black &amp; white</option><option value="vintage">Vintage</option><option value="cool">Cool</option><option value="warm">Warm</option></select></label><label>Speed<select data-p="rate">${[.25,.5,1,1.25,1.5,2,4].map(r=>`<option ${r==1?'selected':''}>${r}</option>`).join('')}</select></label><label><span><input type="checkbox" data-p="fh"> Flip horizontal</span></label><label><span><input type="checkbox" data-p="fv"> Flip vertical</span></label><label>Text overlay<input type="text" data-p="tx" placeholder="Type a title"></label></div>`;
+$('#vprops').addEventListener('input',e=>{const k=e.target.dataset.p;if(!k)return;vp[k]=e.target.type==='checkbox'?+e.target.checked:(['pre','tx'].includes(k)?e.target.value:+e.target.value);if(k==='rate')vv.playbackRate=vp.rate;applyV();vtl()});
+function vtl(){const d=vv.duration||1,bl=c=>VE.clips.map((k,i)=>`<i data-c="${i}" class="${i===VE.sel?'sel':''}" style="position:absolute;top:0;bottom:0;border-radius:5px;left:${k.a/d*100}%;width:${(k.b-k.a)/d*100}%;background:${c}"></i>`).join(''),row=(n,x)=>`<div class="tlr"><span>${n}</span><div class="tr tk">${x}</div></div>`;
+ $('#vtl').innerHTML=`<div class="tlw">${row('Video',bl('#93c5fd'))}${row('Audio',bl('#6ee7b7'))}${row('Overlay',OV.getAttribute('src')?'<i style="position:absolute;inset:0;border-radius:5px;background:#a5b4fc"></i>':'')}${VE.music?row('Music','<i style="position:absolute;inset:0;border-radius:5px;background:#fcd34d"></i>'):''}${row('Text',vp.tx?'<i style="position:absolute;inset:0;border-radius:5px;background:#c4b5fd"></i>':'')}<div class="tph" style="left:calc(60px + (100% - 60px)*${(vv.currentTime||0)/d})"></div></div>`}
+$('#vtl').onclick=e=>{const c=e.target.closest('[data-c]');if(c)VE.sel=+c.dataset.c;const r=$('#vtl .tk').getBoundingClientRect();vv.currentTime=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*vv.duration;vtl()};
+function vloop(){if(vv.paused)return;const t=vv.currentTime;const kc=VE.clips.find(k=>t>=k.a&&t<k.b);if(kc)vv.volume=Math.min(1,kc.vol??1);if(!VE.clips.some(k=>t>=k.a&&t<k.b)){const n=VE.clips.filter(k=>k.a>t).sort((a,b)=>a.a-b.a)[0];n?vv.currentTime=n.a:vv.pause()}vtl();requestAnimationFrame(vloop)}
+vv.onplay=()=>{$('#vplay').textContent='Pause';vloop()};vv.onpause=()=>$('#vplay').textContent='Play';vv.onseeked=vtl;
+function vload(file,tried){reg(file,'video');VE.file=file;vv.src=URL.createObjectURL(file);vv.onloadedmetadata=()=>{VE.clips=[{a:0,b:vv.duration}];VE.sel=0;$('#ve').style.display='block';applyV();vtl();toast('Loaded '+file.name)};vv.onerror=async()=>{const ext=(file.name.split('.').pop()||'').toUpperCase();if(tried)return toast('The converted video still will not play in this browser. Try Chrome or Edge.');if(!ffmpegService.configured)return toast('This browser cannot play '+ext+' video. Start the MediaForge server so FFmpeg can open it.');vv.onerror=null;try{prog.show('Preparing '+ext+' for editing (server)');const b=await ffmpegService.convert(file,{format:'mp4',height:0},p=>prog.set(p));prog.hide();vload(new File([b],file.name.replace(/\.[^.]+$/,'')+'.mp4',{type:'video/mp4'}),true)}catch(e){prog.hide();toast(e.message)}}}
+$('#vebrowse').onclick=()=>$('#vein').click();$('#vein').onchange=e=>{e.target.files[0]&&vload(e.target.files[0]);e.target.value=''};
+['dragover','dragenter'].forEach(v=>$('#vedrop').addEventListener(v,x=>{x.preventDefault();$('#vedrop').classList.add('over')}));
+['dragleave','drop'].forEach(v=>$('#vedrop').addEventListener(v,x=>{x.preventDefault();$('#vedrop').classList.remove('over')}));
+$('#vedrop').addEventListener('drop',x=>{const f=[...x.dataTransfer.files].find(isVid);f?vload(f):toast('That file type is not supported')});
+$('#vplay').onclick=()=>vv.paused?vv.play():vv.pause();
+$('#vsplit').onclick=()=>{const t=vv.currentTime,i=VE.clips.findIndex(k=>t>k.a+.1&&t<k.b-.1);if(i<0)return toast('Move the playhead inside a clip first');const k=VE.clips[i];VE.clips.splice(i,1,{a:k.a,b:t},{a:t,b:k.b});VE.sel=i+1;vtl();toast('Split')};
+$('#vdel').onclick=()=>{if(VE.clips.length<2)return toast('Keep at least one clip');VE.clips.splice(VE.sel,1);VE.sel=0;vtl();toast('Clip deleted')};
+$('#vtrim').onclick=()=>{VE.clips=[VE.clips[VE.sel]];VE.sel=0;vtl();toast('Trimmed to selected clip')};
+$('#vaud').onclick=async()=>{const f=$('#vafmt').value;try{prog.show('Extracting audio');prog.set(.1);let blob=null;if(f==='wav'||f==='mp3'){try{const b=await decodeAny(VE.file,p=>prog.set(p*.8));blob=f==='mp3'?mp3Blob(b,192):wavBlob(b)}catch(e){if(!ffmpegService.configured)throw e}}if(!blob){if(!ffmpegService.configured)throw Error('Start the MediaForge server to extract '+f.toUpperCase());blob=await ffmpegService.convert(VE.file,{format:f,bitrate:192},p=>prog.set(p))}prog.set(.95);done('video',VE.file.name,'Audio extracted');saveFile(blob,VE.file.name.replace(/\.[^.]+$/,'')+'.'+f);prog.set(1)}catch(e){toast(e.message||'No readable audio track in this video')}prog.hide()};
+$('#vfmt').onchange=e=>{$('#vexp').textContent='Export '+e.target.value.toUpperCase()};
+function drawF(x,cv,t,total){const w=cv.width,h=cv.height;x.save();x.fillStyle='#000';x.fillRect(0,0,w,h);x.filter=filt();let a=vp.o/100;if(vp.fi&&t<vp.fi)a*=t/vp.fi;if(vp.fo&&total-t<vp.fo)a*=Math.max(0,(total-t)/vp.fo);x.globalAlpha=a;x.translate(w/2,h/2);x.rotate(vp.r*Math.PI/180);x.scale(...flip());x.drawImage(vv,...crp(),-w/2,-h/2,w,h);x.restore();
+ if(OV.getAttribute('src')&&OV.naturalWidth)x.drawImage(OV,vp.ox/100*w,vp.oy/100*h,vp.os/100*w,OV.naturalHeight/OV.naturalWidth*vp.os/100*w);txtDraw(x,w,h)}
+const seek=t=>new Promise(r=>{vv.addEventListener('seeked',r,{once:true});vv.currentTime=t});
+$('#vexp').onclick=async()=>{try{const cv=document.createElement('canvas');const[,,cw0,ch0]=crp();cv.width=Math.round(cw0/2)*2;cv.height=Math.round(ch0/2)*2;const x=cv.getContext('2d'),R=mkRec(cv,vv,true),total=VE.clips.reduce((t,c)=>t+c.b-c.a,0);let el=0;R.rec.start();const ms=musicStart(R);prog.show('Exporting video (plays while recording)',true);
+ for(const c of VE.clips){await seek(c.a);vv.playbackRate=vp.rate;await vv.play();await new Promise(r=>{const f=()=>{drawF(x,cv,el+vv.currentTime-c.a,total);prog.set(Math.min(.97,(el+vv.currentTime-c.a)/total));trn(x,cv,vv.currentTime-c.a,VE.clips.indexOf(c));R.vg.gain.value=(c.vol??1)*fadeK(el+vv.currentTime-c.a,total);if(vv.currentTime>=c.b||vv.ended||prog.stop){vv.pause();r()}else requestAnimationFrame(f)};f()});el+=c.b-c.a}
+ ms&&ms.stop();R.rec.stop();const b=await R.done;if(prog.stop)throw Error('Export cancelled');const vf=$('#vfmt').value;let out=b;if(vf!=='webm'){if(!ffmpegService.configured)throw Error('Start the MediaForge server to export '+vf.toUpperCase());prog.show('Converting to '+vf.toUpperCase()+' on server');out=await ffmpegService.convert(b,{format:vf,height:0},p=>prog.set(p))}prog.set(1);prog.hide();stats.x++;done('video',VE.file.name,'Exported');toast('Complete');saveFile(out,'mediaforge-edit.'+vf)}catch(e){vv.pause();prog.hide();toast(e.message)}};
+// Background and watermark tools (provider interface only)
+const prov={bg:{name:'Background removal',configured:false,async process(){throw Error('Processing provider not configured')}},wm:{name:'Watermark removal',configured:false,async process(){throw Error('Processing provider not configured')}}};
+const tool=(k,t,x)=>`<div class="card"><h3>${t}</h3><p class="note">Status: processing provider not configured. Nothing is processed or faked.</p><input type="file" data-t="${k}" accept="image/*,video/*" aria-label="Upload ${t}"><div id="tw-${k}" style="position:relative;margin:12px 0;touch-action:none"></div>${x}<p id="tr-${k}" class="mu"></p><button class="pri" data-p="${k}">Process</button></div>`;
+$('#v-tools').innerHTML='<div class="w" style="padding-top:40px;padding-bottom:60px"><h2>Remove Background &amp; Watermark</h2><p class="mu">Upload media and set your options. A real model or API must be connected in the provider service before these produce output.</p><div class="two">'+tool('bg','Remove background','<div class="ctl"><label>Background<select><option>Transparent</option><option>Color</option><option>Image</option></select></label><label>Color<input type="color" value="#ffffff"></label></div>')+tool('wm','Remove watermark','<p class="mu">Drag on the preview to mark the watermark area.</p>')+'</div></div>';
+const RG={};
+$('#v-tools').addEventListener('change',e=>{const k=e.target.dataset.t,f=e.target.files&&e.target.files[0];if(!k||!f)return;reg(f,f.type.startsWith('video')?'video':'audio');const u=URL.createObjectURL(f);$('#tw-'+k).innerHTML=f.type.startsWith('video')?`<video src="${u}" controls style="width:100%;border-radius:10px;display:block"></video>`:`<img src="${u}" alt="Preview" style="width:100%;border-radius:10px;display:block">`});
+$('#v-tools').addEventListener('click',e=>{const k=e.target.dataset.p;if(!k)return;const r=RG[k];prov[k].process({region:r}).catch(x=>{$('#tr-'+k).textContent=prov[k].name+': '+x.message;toast(x.message)})});
+const wm=$('#tw-wm');let w0=null;const pc=e=>{const r=wm.getBoundingClientRect();return[Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))]};
+wm.onpointerdown=e=>{if(!wm.firstChild||e.target.tagName==='VIDEO'&&e.offsetY>wm.clientHeight-48)return;w0=pc(e);wm.setPointerCapture(e.pointerId)};
+wm.onpointermove=e=>{if(!w0)return;const p=pc(e),x0=Math.min(w0[0],p[0]),y0=Math.min(w0[1],p[1]),w=Math.abs(p[0]-w0[0]),h=Math.abs(p[1]-w0[1]);RG.wm={x:x0,y:y0,w,h};let d=wm.querySelector('.rg');if(!d){d=document.createElement('div');d.className='rg';wm.appendChild(d)}d.style.cssText=`left:${x0*100}%;top:${y0*100}%;width:${w*100}%;height:${h*100}%`;$('#tr-wm').textContent=`Region: ${Math.round(x0*100)}%, ${Math.round(y0*100)}%, ${Math.round(w*100)}% x ${Math.round(h*100)}%`};
+wm.onpointerup=()=>{w0=null};
+
+// Hero upload split + overlay controls
+$('#hvb').onclick=()=>{location.hash='#video-editor'};$('#hab').onclick=()=>{location.hash='#audio-editor'};
+$('#hv').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f){location.hash='#video-editor';setTimeout(()=>vload(f),60)}};
+$('#ha').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f){location.hash='#audio-editor';setTimeout(()=>load(f),60)}};
+const OV=$('#vov');Object.assign(vp,{ox:70,oy:8,os:25});
+const ovp=()=>{OV.style.display=OV.getAttribute('src')?'block':'none';OV.style.left=vp.ox+'%';OV.style.top=vp.oy+'%';OV.style.width=vp.os+'%'};
+$('#vprops .ctl').insertAdjacentHTML('beforeend','<label>Image overlay<input type="file" id="vimg" accept="image/*"></label>'+vr('ox','Overlay X',0,90,70)+vr('oy','Overlay Y',0,90,8)+vr('os','Overlay size',5,80,25));
+$('#vimg').onchange=e=>{const f=e.target.files[0];if(f){OV.onload=()=>{applyV();vtl()};OV.src=URL.createObjectURL(f)}};
+$('#esl').insertAdjacentHTML('beforeend',rg('dl','Delay / echo mix',0,100,1,0)+rg('rv','Reverb mix',0,100,1,0)+'<label><span><input type="checkbox" data-k="comp"> Compressor</span></label><label><span><input type="checkbox" data-k="norm\"> Normalize</span></label><label><span><input type="checkbox" data-k="lim"> Limiter</span></label>');
+
+// FFmpeg server client: unlocks every format when the MediaForge server is reachable
+ffmpegService.convert=(file,o,onP)=>new Promise((res,rej)=>{const fd=new FormData();fd.append('file',file);Object.entries(o).forEach(([k,v])=>fd.append(k,v));const x=new XMLHttpRequest();x.open('POST',(window.MF_API||'')+'/api/convert');x.responseType='blob';
+ x.upload.onprogress=e=>e.lengthComputable&&onP(e.loaded/e.total*.4);x.onprogress=e=>e.lengthComputable&&onP(.6+e.loaded/e.total*.4);
+ x.onload=()=>x.status===200?res(x.response):x.response.text().then(t=>rej(Error(t||'Server conversion failed')));x.onerror=()=>rej(Error('Cannot reach the conversion server'));x.send(fd)});
+const _vc=vconv;vconv=(f,p)=>ffmpegService.configured?ffmpegService.convert(f.file,{format:$('#vout').value,height:$('#vres').value,aspect:$('#vasp').value},p):_vc(f,p);
+$('#vasp').title='Cropping needs the FFmpeg server';
+const _tw=audioProcessor.toWav;audioProcessor.toWav=(file,o,p)=>ffmpegService.configured&&o.fmt!=='wav'?ffmpegService.convert(file,{format:o.fmt,bitrate:o.kbps,sampleRate:o.sampleRate,channels:o.channels},p):_tw.call(audioProcessor,file,o,p);
+fetch((window.MF_API||'')+'/api/health').then(r=>r.json()).then(j=>{if(j.ffmpeg){ffmpegService.configured=true;$$('.srv').forEach(o=>{o.disabled=false;o.textContent=o.textContent.replace(' (needs server)','')});toast('FFmpeg server connected')}}).catch(()=>{});
+$('#vdup').onclick=()=>{if(!VE.clips||!VE.clips.length)return toast('Open a video first');const c=VE.clips[VE.sel];VE.clips.splice(VE.sel+1,0,{...c});VE.sel++;vtl();toast('Clip duplicated')};
+$('#vgif').onclick=async()=>{if(!ffmpegService.configured||!VE.file)return toast('Open a video and start the server');prog.show('Uploading...');try{const b=await ffmpegService.convert(VE.file,{format:'gif',height:480},p=>prog.set(p,p<.4?'Uploading...':p<.6?'Converting on server...':'Downloading...'));saveFile(b,VE.file.name.replace(/\.[^.]+$/,'')+'.gif');prog.set(1)}catch(e){toast(e.message)}prog.hide()};
+$('#vzoom').oninput=e=>$('#vtl').style.setProperty('--z',e.target.value);
+const spd=r=>{vp.rate=r;vv.playbackRate=r;const q=$('#vprops [data-p="rate"]');q&&(q.value=String(r));toast('Speed '+r+'×')};
+$('#vslow').onclick=()=>spd(.5);$('#vlapse').onclick=()=>spd(4);
+// Accessibility: roles, labels, keyboard control of timeline and waveform
+$('#toast').setAttribute('role','status');$('#toast').setAttribute('aria-live','polite');
+const tl=$('#vtl');tl.tabIndex=0;tl.setAttribute('role','slider');tl.setAttribute('aria-label','Video timeline. Left and right arrows seek, space plays.');
+tl.onkeydown=e=>{if(!vv.duration)return;if(e.key==='ArrowRight')vv.currentTime=Math.min(vv.duration,vv.currentTime+1);else if(e.key==='ArrowLeft')vv.currentTime=Math.max(0,vv.currentTime-1);else if(e.key===' ')vv.paused?vv.play():vv.pause();else return;e.preventDefault()};
+cv.tabIndex=0;cv.setAttribute('role','slider');cv.setAttribute('aria-label','Audio waveform. Left and right arrows move the playhead, space plays.');
+cv.onkeydown=e=>{if(!E.buf)return;if(e.key==='ArrowRight'||e.key==='ArrowLeft'){stop();E.pos=Math.max(0,Math.min(E.buf.duration,E.pos+(e.key==='ArrowRight'?1:-1)));draw()}else if(e.key===' ')$('#eplay').click();else return;e.preventDefault()};
+// Export progress overlay: prog.show(label,cancelable) / set(0..1,label) / hide()
+const prog=(()=>{let t;document.body.insertAdjacentHTML('beforeend','<div id="prg" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:min(92vw,380px);background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;box-shadow:0 8px 30px #0004;z-index:99"><div style="display:flex;justify-content:space-between;gap:12px"><b id="prgl"></b><b id="prgp">0%</b></div><div id="prgb" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height:8px;border-radius:99px;background:var(--bd);margin:10px 0;overflow:hidden"><i id="prgf" style="display:block;height:100%;width:0;background:var(--acc,#6366f1);transition:width .2s"></i></div><button id="prgc" hidden>Cancel</button></div>');
+const o={stop:false,show(l,c){clearTimeout(t);o.stop=false;$('#prgl').textContent=l;$('#prgc').hidden=!c;$('#prgc').textContent='Cancel';o.set(0);$('#prg').style.display='block'},set(p,l){const n=Math.round(Math.max(0,Math.min(1,p))*100);$('#prgp').textContent=n+'%';$('#prgf').style.width=n+'%';$('#prgb').setAttribute('aria-valuenow',n);if(l)$('#prgl').textContent=l},hide(){clearTimeout(t);t=setTimeout(()=>$('#prg').style.display='none',500)}};
+$('#prgc').onclick=()=>{o.stop=true;$('#prgc').textContent='Cancelling...'};return o})();
+// Crop, titles, transitions
+const crp=()=>{const W=vv.videoWidth,H=vv.videoHeight,a=vp.asp;if(!a)return[0,0,W,H];const w=Math.min(W,H*a),h=w/a;return[(W-w)/2,(H-h)/2,w,h]};
+function txtDraw(x,w,h){if(!vp.tx)return;const k=vp.ts||'bottom';x.save();x.fillStyle='#fff';x.shadowColor='#000';x.shadowBlur=8;
+ if(k==='title'){x.font=`700 ${Math.round(h*.09)}px sans-serif`;x.textAlign='center';x.fillText(vp.tx,w/2,h*.55)}
+ else if(k==='lower'){const f=Math.round(h*.05);x.font=`700 ${f}px sans-serif`;x.textAlign='left';const tw=x.measureText(vp.tx).width;x.shadowBlur=0;x.fillStyle='rgba(0,0,0,.6)';x.fillRect(w*.05,h*.82,tw+f*1.2,f*1.8);x.fillStyle='#6366f1';x.fillRect(w*.05,h*.82,f*.15,f*1.8);x.fillStyle='#fff';x.fillText(vp.tx,w*.05+f*.6,h*.82+f*1.25)}
+ else{x.font=`700 ${Math.round(h*.06)}px sans-serif`;x.textAlign='center';x.fillText(vp.tx,w/2,h*.9)}x.restore()}
+function trn(x,cv,t,i){const m=$('#vtr').value;if(!m||i<1||t>=.5)return;const k=1-t/.5;x.save();x.fillStyle='#000';if(m==='fade'){x.globalAlpha=k;x.fillRect(0,0,cv.width,cv.height)}else x.fillRect(0,0,cv.width*k,cv.height);x.restore()}
+function txtPrev(){const e=$('#vtxt'),k=vp.ts||'bottom';e.style.cssText='position:absolute;color:#fff;font-weight:700;pointer-events:none;text-shadow:0 2px 6px #000;display:'+(vp.tx?'':'none')+';'+(k==='title'?'left:0;right:0;top:40%;text-align:center;font-size:clamp(20px,5vw,44px)':k==='lower'?'left:5%;bottom:10%;font-size:clamp(14px,2.6vw,22px);background:rgba(0,0,0,.6);border-left:4px solid #6366f1;padding:6px 12px;text-shadow:none':'left:0;right:0;bottom:10%;text-align:center;font-size:clamp(14px,3vw,26px)')}
+$('#vcrop').onchange=e=>{vp.asp=+e.target.value;vv.style.aspectRatio=vp.asp||'auto';vv.style.objectFit=vp.asp?'cover':'';applyV()};
+$('#vts').onchange=e=>{vp.ts=e.target.value;txtPrev()};
+// Audio multi-track mixer: Voice (main) + extra tracks with volume, start time, mute, solo, duplicate, split
+const M={mute:false,solo:false};E.tr=[];E.ex=[];
+const aud=t=>(M.solo||E.tr.some(q=>q.solo))?t.solo:!t.mute;
+$('#esl').insertAdjacentHTML('afterend','<div class="card" style="margin-top:12px"><h3>Tracks</h3><div id="mixl"></div><div class="ctl"><label>Add track (music, SFX, voice)<input type="file" id="mixf" accept="audio/*" multiple></label><button id="esplit">Split at playhead</button></div><p class="mu" style="font-size:13px">Start (s) moves a track in time. Extra tracks play at normal speed.</p></div>');
+function renderMix(){const row=(n,t,i)=>`<div class="ctl" style="align-items:end"><b style="min-width:120px">${esc(n)}</b>${i>=0?`<label>Vol<input type="range" data-t="${i}" data-a="vol" min="0" max="2" step=".05" value="${t.vol}"></label><label>Start (s)<input type="number" data-t="${i}" data-a="off" min="0" step=".1" value="${t.off}" style="width:80px"></label>`:''}<button data-t="${i}" data-a="mute">${t.mute?'Unmute':'Mute'}</button><button data-t="${i}" data-a="solo">${t.solo?'Unsolo':'Solo'}</button>${i>=0?`<button data-t="${i}" data-a="dup">Duplicate</button><button data-t="${i}" data-a="del">Remove</button>`:''}</div>`;$('#mixl').innerHTML=row('Voice (main)',M,-1)+E.tr.map((t,i)=>row(t.name,t,i)).join('')}
+$('#mixl').onclick=e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.t,a=b.dataset.a,t=i<0?M:E.tr[i];if(a==='mute')t.mute=!t.mute;else if(a==='solo')t.solo=!t.solo;else if(a==='dup')E.tr.splice(i+1,0,{...t,name:t.name+' copy',off:t.off+.5});else if(a==='del')E.tr.splice(i,1);renderMix()};
+$('#mixl').oninput=e=>{const i=+e.target.dataset.t;if(i>=0&&e.target.dataset.a)E.tr[i][e.target.dataset.a]=+e.target.value};
+$('#mixf').onchange=async e=>{for(const f of e.target.files){try{E.tr.push({name:f.name,buf:await decodeAny(f),vol:1,mute:false,solo:false,off:0})}catch(x){toast(x.message||'Could not read '+f.name)}}e.target.value='';renderMix()};
+$('#esplit').onclick=()=>{if(!E.buf)return toast('Open audio first');const p=E.pos;if(p<.05||p>E.buf.duration-.05)return toast('Click the waveform inside the audio to place the playhead');stop();push();const nb=slice([[fr(p),E.buf.length]]);E.buf=slice([[0,fr(p)]]);E.tr.push({name:'Part 2',buf:nb,vol:1,mute:false,solo:false,off:p});E.pos=0;draw();renderMix();toast('Split. Move Part 2 with Start (s)')};
+const _pl=play,_st=stop;
+play=function(){_pl();if(!E.playing)return;if(!aud(M)&&E.live)try{E.live.src.disconnect()}catch(e){}const c=E.ctx,n=c.currentTime;for(const t of E.tr){if(!aud(t))continue;const q=c.createBufferSource(),g=c.createGain();g.gain.value=t.vol;q.buffer=t.buf;q.connect(g);g.connect(c.destination);E.pos>=t.off?q.start(0,E.pos-t.off):q.start(n+t.off-E.pos);E.ex.push(q)}};
+stop=function(r){E.ex.forEach(q=>{try{q.stop()}catch(e){}});E.ex=[];_st(r)};
+renderMix();txtPrev();
+// Transport (back, forward, stop) and Clear for both editors
+const seekV=d=>{if(!vv.duration)return;vv.currentTime=Math.max(0,Math.min(vv.duration,vv.currentTime+d))};
+$('#vback').onclick=()=>seekV(-5);$('#vfwd').onclick=()=>seekV(5);
+$('#vstop').onclick=()=>{vv.pause();ma.pause();vv.currentTime=VE.clips.length?VE.clips[0].a:0;vtl()};
+$('#vclr').onclick=()=>{vv.pause();ma.pause();vv.onerror=null;vv.removeAttribute('src');vv.load();VE.clips=[];VE.sel=0;VE.file=null;VE.music=null;vp.tx='';OV.removeAttribute('src');$('#vov').style.display='none';applyV();vtl();$('#ve').style.display='none';toast('Video cleared. Drop or browse to open another')};
+const seekA=d=>{if(!E.buf)return;const was=E.playing,cur=was?E.pos+(E.ctx.currentTime-E.t0)*par.rate:E.pos;stop();E.pos=Math.max(0,Math.min(E.buf.duration-.01,cur+d));draw();was&&play()};
+$('#eback').onclick=()=>seekA(-5);$('#efwd').onclick=()=>seekA(5);
+$('#eclr').onclick=()=>{if(E.buf)stop(true);E.buf=null;E.hist=[];E.sel=null;E.pos=0;E.tr=[];M.mute=M.solo=false;renderMix();$('#ed').style.display='none';toast('Audio cleared. Drop or browse to open another')};
+['#ain','#ein','#ha','#mixf','#vmus'].forEach(i=>$(i)&&($(i).accept=ACCEPT_A));['#vin','#vein','#hv'].forEach(i=>$(i)&&($(i).accept=ACCEPT_V));
+$('#ain').accept=ACCEPT_A;
+// Server status next to the converter titles
+['#v-video-converter','#v-audio-converter'].forEach(v=>$(v+' h2').insertAdjacentHTML('beforeend',' <small class="srvb mu" style="font-size:13px;font-weight:400">· checking server...</small>'));
+const srvB=ok=>$$('.srvb').forEach(e=>e.textContent=ok?'· FFmpeg server connected: all formats ready':'· Server not connected: only WebM, WAV, MP3 work');
+fetch((window.MF_API||'')+'/api/health').then(r=>r.json()).then(j=>srvB(!!j.ffmpeg)).catch(()=>srvB(false));
+// Music track, per-clip volume, audio fades
+const fadeK=(t,total)=>{let a=1;if(vp.fi&&t<vp.fi)a*=t/vp.fi;if(vp.fo&&total-t<vp.fo)a*=Math.max(0,(total-t)/vp.fo);return a};
+const ma=new Audio();ma.loop=true;
+function musicStart(R){if(!VE.music)return null;const g=R.c.createGain(),s=R.c.createBufferSource();g.gain.value=+$('#vmv').value;s.buffer=VE.music.buf;s.loop=true;s.connect(g);g.connect(R.d);s.start();return s}
+$('#vmus').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{VE.music={buf:await decodeAny(f),name:f.name};ma.src=URL.createObjectURL(f);ma.volume=+$('#vmv').value;vtl();toast('Music added: '+f.name)}catch(x){toast(x.message||'Could not read this audio file')}};
+$('#vmv').oninput=e=>{ma.volume=+e.target.value};
+$('#vmx').onclick=()=>{VE.music=null;ma.pause();vtl();toast('Music removed')};
+vv.addEventListener('play',()=>{VE.music&&ma.play().catch(()=>{})});vv.addEventListener('pause',()=>ma.pause());
+$('#vcv').oninput=e=>{const k=VE.clips[VE.sel];if(k){k.vol=+e.target.value;vv.volume=Math.min(1,k.vol)}};
+$('#vtl').addEventListener('click',()=>{const k=VE.clips[VE.sel];$('#vcv').value=k?(k.vol??1):1});
+// Confirmation dialog
+document.body.insertAdjacentHTML('beforeend','<dialog id="cfm" style="border:1px solid var(--bd);border-radius:12px;background:var(--card);color:inherit;padding:20px;max-width:340px"><p id="cfmt"></p><div class="ctl"><button id="cfmn">Cancel</button><button id="cfmy" class="pri">Delete</button></div></dialog>');
+const ask=m=>new Promise(r=>{const d=$('#cfm');$('#cfmt').textContent=m;$('#cfmy').onclick=()=>{d.close();r(true)};$('#cfmn').onclick=()=>{d.close();r(false)};d.oncancel=()=>r(false);d.showModal()});
+route();
+</script></body></html>
